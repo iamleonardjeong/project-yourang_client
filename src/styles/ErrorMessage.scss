@@ -1,0 +1,44 @@
+// login error modal component local
+.modal_error {
+  font-family: 'Montserrat';
+  width: 100%;
+  min-height: 100%;
+  position: fixed;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 120;
+
+  // modal message
+  .modal_error_message {
+    width: 400px;
+    height: 100%;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: #008f7a;
+    background-color: white;
+    border-radius: 8px;
+    flex-direction: column;
+    box-shadow: 0 3px 6px rgba(189, 189, 189, 0.16),
+      0 3px 6px rgba(0, 0, 0, 0.23);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    // modal message - btn
+    .modal_error_message_btn {
+      width: 106px;
+      height: 44px;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: white;
+      background-color: #008f7a;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  }
+}

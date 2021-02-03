@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import './SignInModal.css';
+import axios from 'axios';
+import { GoogleLogin } from 'react-google-login';
+import '../styles/SignInModal.scss';
 import googleIcon from '../image/google_icon.png';
 import naverIcon from '../image/naver_icon.png';
 import ErrorMessage from './ErrorMessage';
@@ -7,12 +9,17 @@ import ErrorMessage from './ErrorMessage';
 interface SignInModalProps {
   signInModalHandler: (e: React.MouseEvent<HTMLElement>) => void;
   signUpModalHandler: (e: React.MouseEvent<HTMLElement>) => void;
+  loginSuccessHandler: () => void;
+  modalSwitchHandler: () => void;
 }
 
 function SignInModal({
   signInModalHandler,
   signUpModalHandler,
+  loginSuccessHandler,
+  modalSwitchHandler,
 }: SignInModalProps) {
+  // useState
   const [loginInfo, setLoginInfo] = useState({ userId: '', password: '' });
   const [isValidFail, setIsValidFail] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -22,99 +29,133 @@ function SignInModal({
     setLoginInfo({ ...loginInfo, [name]: value });
   };
 
+  const loginButtonHandler = () => {
+    axios
+      .post('http://yourang-server.link:5000/user/login', {
+        id: loginInfo.userId,
+        password: loginInfo.password,
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          localStorage.setItem('authorization', res.data.authorization);
+          loginSuccessHandler();
+        }
+      })
+      .catch((err) => {
+        setIsValidFail(!isValidFail);
+        setErrorMessage(
+          '가입 되어있지 않은 계정입니다. 아이디와 비밀번호를 확인해 주세요'
+        );
+        setLoginInfo({ userId: '', password: '' });
+      });
+  };
+
   const validationCheck = (e: React.MouseEvent<HTMLElement>) => {
     // 유효성 검사 후 user가 확인 버튼을 눌렀을 때, LoginInfo를 초기화 하기 위한 로직
     if (e.currentTarget.textContent === '확인') {
       setLoginInfo({ userId: '', password: '' });
     }
 
-    const error1 = '아아디와 비밀번호를 모두 입력해 주셔야 합니다.';
-    const error2 = '아이디 혹은 비밀번가 맞지않습니다. 다시 입력해 주세요.';
+    const error1 = '아이디와 비밀번호를 입력해주세요';
     const { userId, password } = loginInfo;
 
     if (!userId || !password) {
       setIsValidFail(!isValidFail);
       setErrorMessage(error1);
+    } else {
+      loginButtonHandler();
     }
   };
 
+  //Google Login
+  const googleLogInHandler = (res: any) => {
+    const { name, googleId } = res.profileObj;
+
+    axios
+      .post('http://yourang-server.link:5000/user/login', {
+        id: name,
+        password: googleId,
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          localStorage.setItem('authorization', res.data.authorization);
+          loginSuccessHandler();
+        }
+      })
+      .catch((err) => {
+        setIsValidFail(!isValidFail);
+        setErrorMessage(
+          '가입 되어있지 않은 계정입니다. 회원가입을 먼저 진행해 주세요.'
+        );
+      });
+  };
   return (
-    <div className="signin-modal">
-      <div className="signin-modal_container">
-        <div className="signin-modal_container_content">
-          <div className="signin-modal_container_content_head">
+    <div className="signIn_modal">
+      <div className="signIn_modal_container">
+        <div className="signIn_modal_container_wrap">
+          <div className="signIn_modal_container_wrap_titleBar">
             <div
-              className="signin-modal_container_content_head_close-button"
+              className="signIn_modal_container_wrap_titleBar_title_closeBtn"
               onClick={signInModalHandler}
             >
               +
             </div>
-            <div className="signin-modal_container_content_head_title">
-              Log in
+            <div className="signIn_modal_container_wrap_titleBar_title">
+              로그인
             </div>
-            <div className="empty-div-for-spacing"></div>
+            <div className="signIn_modal_container_wrap_titleBar_empty"></div>
           </div>
 
-          <div className="signin-modal_container_content_body">
-            <div className="signin-modal_container_content_body_upper">
-              <div className="signin-modal_container_content_body__upper_input-field">
-                <input
-                  type="text"
-                  name="userId"
-                  className="signin-modal_container_content_body__upper_input-field_id"
-                  placeholder="User ID"
-                  onChange={loginInfoHandler}
-                />
-                <input
-                  type="password"
-                  name="password"
-                  className="signin-modal_container_content_body__upper_input-field_password"
-                  placeholder="Password"
-                  onChange={loginInfoHandler}
-                />
-              </div>
-              <button
-                className="signin-modal_container_content_body__upper_login-button"
-                onClick={validationCheck}
-              >
-                Log In
-              </button>
+          <div className="signIn_modal_container_wrap_body">
+            <input
+              type="text"
+              name="userId"
+              value={loginInfo.userId}
+              className="signIn_modal_container_wrap_body_idInput"
+              placeholder="아이디"
+              onChange={loginInfoHandler}
+            />
+            <input
+              type="password"
+              name="password"
+              value={loginInfo.password}
+              className="signIn_modal_container_wrap_body_pwInput"
+              placeholder="비밀번호"
+              onChange={loginInfoHandler}
+            />
+
+            <button
+              className="signIn_modal_container_wrap_body_loginBtn"
+              onClick={(e: React.MouseEvent<HTMLElement>) => {
+                validationCheck(e);
+              }}
+            >
+              로그인
+            </button>
+            <div className="social_title">or</div>
+            <div className="signIn_modal_container_wrap_body_social_google">
+              <GoogleLogin
+                className="signIn_modal_container_wrap_body_google_oauth"
+                clientId="307554420471-19f0nnr1jp6lvf9qqea85e8i07j36vjc.apps.googleusercontent.com"
+                buttonText="구글 계정으로 로그인"
+                icon={true}
+                onSuccess={googleLogInHandler}
+                onFailure={googleLogInHandler}
+                cookiePolicy={'single_host_origin'}
+              />
             </div>
-
-            <div className="signin-modal_container_content_body_lower">
-              <div className="signin-modal_container_content_body_lower_google-login">
-                <img
-                  src={googleIcon}
-                  className="signin-modal_container_content_body_lower_google-login_icon"
-                />
-                <div className="signin-modal_container_content_body_lower_google-login_message">
-                  Continue with Google
-                </div>
-              </div>
-              <div className="signin-modal_container_content_body_lower_naver-login">
-                <img
-                  src={naverIcon}
-                  className="signin-modal_container_content_body_lower_naver-login_icon"
-                />
-                <div className="signin-modal_container_content_body_lower_naver-login_message">
-                  Continue with Naver
-                </div>
-              </div>
-
-              <div className="signin-modal_container_content_body_lower_to-signup-group">
-                <div className="signin-modal_container_content_body_lower_ask-for-signup">
-                  아직 회원이 아니세요?
-                </div>
-                <button
-                  name="toSignUp"
-                  type="button"
-                  value="signup"
-                  onClick={signUpModalHandler}
-                  className="signin-modal_container_content_body_lower_to-signup"
-                >
-                  Sign up
-                </button>
-              </div>
+            <div className="signUp_btn_Container">
+              <button
+                name="toSignUp"
+                type="button"
+                value="signup"
+                onClick={signUpModalHandler}
+                className="signUp_btn"
+              >
+                회원가입
+              </button>
             </div>
           </div>
         </div>
@@ -123,6 +164,7 @@ function SignInModal({
         <ErrorMessage
           validationCheck={validationCheck}
           errorMessage={errorMessage}
+          modalSwitchHandler={modalSwitchHandler}
         />
       ) : null}
     </div>

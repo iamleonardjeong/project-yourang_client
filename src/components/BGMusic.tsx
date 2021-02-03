@@ -1,8 +1,7 @@
-import React, { useState, useEffect, MouseEvent } from 'react';
-import './BGMusic.css';
-import bgMusic from '../music/yourang-home_music.mp3';
+import React, { useState, useEffect } from 'react';
+import bgMusic from '../music/bgm_home.mp3';
 
-function BGMusic(url: any) {
+function BGMusic() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [music] = useState(new Audio(bgMusic));
 
@@ -10,20 +9,13 @@ function BGMusic(url: any) {
     isPlaying ? music.play() : music.pause();
   });
 
-  // useEffect(() => {
-  //   setTimeout(() => music.play(), 2000);
-  //   return music.pause();
-  // }, []);
-
   const toggle = () => {
     setIsPlaying(!isPlaying);
   };
 
   return (
-    <div>
-      <button className="home_music-button" onClick={toggle}>
-        play/pause
-      </button>
+    <div onClick={toggle} style={{ cursor: 'pointer' }}>
+      {isPlaying ? 'BGM Off' : 'BGM On'}
     </div>
   );
 }

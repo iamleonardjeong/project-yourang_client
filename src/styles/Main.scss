@@ -1,0 +1,247 @@
+// main contents container
+#mainContainer {
+  display: flex;
+  height: calc(100% - 72px);
+}
+
+// left container
+#leftContainer {
+  flex: 3;
+  min-width: 432px;
+  max-width: 432px;
+
+  // left container - lift menu tap
+  #leftMenu {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: #f4f8fa;
+    list-style: none;
+    height: 52px;
+
+    // left container - lift menu tap - list
+    li {
+      width: 100%;
+      height: 100%;
+      color: #868e96;
+      border-bottom: 1px solid rgb(172, 172, 172);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1rem;
+
+      &.restaurant {
+        color: rgba(0, 0, 0, 0.87);
+        font-weight: 600;
+      }
+      &.tourist_attraction {
+        color: rgba(0, 0, 0, 0.87);
+        font-weight: 600;
+      }
+      &.cafe {
+        color: rgba(0, 0, 0, 0.87);
+        font-weight: 600;
+      }
+      &.myListTap {
+        color: rgba(0, 0, 0, 0.87);
+        font-weight: 600;
+      }
+
+      #list_count {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: white;
+        background: #008f7a;
+        border-radius: 100%;
+        box-shadow: 0 3px 6px rgba(189, 189, 189, 0.16),
+          0 3px 6px rgba(0, 0, 0, 0.23);
+        position: relative;
+        top: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  #leftContents {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    // padding: 10px 10px;
+    height: calc(100% - 52px);
+    overflow: scroll;
+
+    &.myListTapContainer {
+      display: flex;
+      justify-content: flex-start;
+      align-content: center;
+      flex-wrap: wrap;
+      height: calc(100% - 52px);
+      overflow: scroll;
+    }
+
+    #myListContents {
+      display: none;
+      overflow: scroll;
+      padding-bottom: 56px;
+
+      &.myListContents {
+        display: block;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+      }
+    }
+
+    .inputState {
+      display: none;
+      bottom: 0;
+    }
+    #send_Email_Container {
+      display: none;
+      font-family: 'Montserrat';
+      width: 360px;
+      font-size: 0.9rem;
+      color: white;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      position: absolute;
+      left: 37px;
+      bottom: 10px;
+
+      #send_Email_Container_titleBar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        border-radius: 8px;
+
+        #send_Email_Container_titleBar_title_closeBtn {
+          flex: 1;
+          font-size: 2rem;
+          font-weight: 300;
+          text-align: center;
+          color: #008f7a;
+          cursor: pointer;
+          transform: rotate(45deg);
+        }
+
+        #send_Email_Container_titleBar_title {
+          flex: 8;
+          margin: 13px;
+
+          input {
+            font-family: 'Montserrat';
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 0.9rem;
+          }
+        }
+
+        #send_Email_Container_titleBar_empty {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          flex: 1;
+          color: #008f7a;
+          outline: yellow;
+          svg {
+            // background-color: #008f7a;
+            path {
+              stroke: #008f7a;
+            }
+          }
+        }
+      }
+
+      &.myListTap {
+        display: inline-block;
+        box-shadow: 0 3px 6px rgba(189, 189, 189, 0.16),
+          0 3px 6px rgba(0, 0, 0, 0.23);
+        bottom: 66px;
+      }
+
+      #send_Email_input {
+        width: 100%;
+      }
+    }
+    #send_Email_Btn {
+      display: none;
+      font-family: 'Montserrat';
+      width: 360px;
+      height: 46px;
+      font-size: 0.9rem;
+      color: white;
+      background: #008f7a;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      position: absolute;
+      left: 37px;
+      bottom: 10px;
+
+      &.myListTap {
+        display: inline-block;
+        box-shadow: 0 3px 6px rgba(189, 189, 189, 0.16),
+          0 3px 6px rgba(0, 0, 0, 0.23);
+      }
+    }
+  }
+}
+
+// right Container
+#rightContainer {
+  flex: 7;
+
+  // right Container - my list section
+  #section_myList {
+    z-index: 100;
+    padding: 10px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.onShow {
+      display: none;
+    }
+
+    // right Container - my list section - btn
+    #myList_btn {
+      font-family: 'Montserrat';
+      width: 80px;
+      height: 40px;
+      background: none rgb(255, 255, 255);
+      border: none;
+      border-radius: 2px;
+      box-shadow: 0 3px 6px rgba(189, 189, 189, 0.16),
+        0 3px 6px rgba(0, 0, 0, 0.23);
+      cursor: pointer;
+
+      // right Container - my list section - btn - list count
+    }
+  }
+
+  // right Container - map
+  #map {
+    width: 100%;
+    height: 100%;
+
+    &.onShow {
+      display: none;
+    }
+  }
+}
