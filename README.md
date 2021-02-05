@@ -1,6 +1,6 @@
-[<img src="./src/image/logo.png" width="50%"/>](./src/image/logo.png)
+[<img src="./src/image/logo.png" width="100%"/>](./src/image/logo.png)
 
-[Go to YouRang](http://yourang.link)
+[🔗 Go to YouRang](http://yourang.link)
 
 <!-- &nbsp; -->
 
@@ -16,6 +16,14 @@
 | 이종원 | 프론트엔드 |
 | 임욱환 | 백엔드     |
 | 정훈   | 프론트엔드 |
+
+<!-- &nbsp; -->
+
+---
+
+<!-- &nbsp; -->
+
+[🔗 팀회고](http://bit.ly/f3b1)
 
 <!-- &nbsp; -->
 
